@@ -7,9 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/Tabs";
 import Code from "./ui/Code";
 import { nodejs, python } from "@/helpers/documentation-code";
 
-interface DocsTabsProps {
-
-}
+interface DocsTabsProps {}
 
 const DocsTabs: FC<DocsTabsProps> = () => {
   return (
