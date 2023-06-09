@@ -7,11 +7,6 @@ import { Toaster } from "@/components/ui/Toast";
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata = {
-  title: 'Text Similarity',
-  description: 'A text similarity app built with next js and typescript'
-}
-
 export default function RootLayout({
   children,
 }: {
