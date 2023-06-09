@@ -5,6 +5,7 @@ import SimpleBar from "simplebar-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/Tabs";
 import Code from "./ui/Code";
+import { nodejs, python } from "@/helpers/documentation-code";
 
 interface DocsTabsProps {
 
@@ -20,13 +21,13 @@ const DocsTabs: FC<DocsTabsProps> = () => {
 
       <TabsContent value='nodejs'>
         <SimpleBar forceVisible='y'>
-          <Code animated code="nodejs" language='javascript' show />
+          <Code animated code={nodejs} language='javascript' show />
         </SimpleBar>
       </TabsContent>
 
       <TabsContent value='python'>
         <SimpleBar forceVisible='y'>
-          <Code animated code="python" language='python' show />
+          <Code animated code={python} language='python' show />
         </SimpleBar>
       </TabsContent>
     </Tabs>
