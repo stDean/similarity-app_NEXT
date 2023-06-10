@@ -6,6 +6,7 @@ import { nanoid } from "nanoid";
 import { CreateApiData } from "@/types/api/key";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { withMethods } from "@/lib/api-middlewares/with-methods";
 
 
 const handler = async (
@@ -54,4 +55,4 @@ const handler = async (
   }
 }
 
-export default handler
+export default withMethods(['GET'], handler)
