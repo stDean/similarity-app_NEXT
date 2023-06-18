@@ -1,10 +1,14 @@
 "use client";
 
 import { FC, useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 import { toast } from "./ui/Toast";
 import { createApiKey } from "@/helpers/createApiKey";
+import { revokeApiKey } from "@/helpers/revoke-api-key";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/DropdownMenu";
+import { Button } from "./ui/Button";
 
 interface ApiKeyOptionsProps {
   // passing of entire object not allowed due to date property not being serializable
@@ -13,16 +17,16 @@ interface ApiKeyOptionsProps {
 
 const ApiKeyOptions: FC<ApiKeyOptionsProps> = ({ apiKeyKey }) => {
 
-  // const router = useRouter();
+  const router = useRouter();
   const [isCreatingNew, setIsCreatingNew] = useState<boolean>(false);
   const [isRevoking, setIsRevoking] = useState<boolean>(false);
 
   const createNewApiKey = async () => {
     setIsCreatingNew(true);
     try {
-      // await revokeApiKey();
+      await revokeApiKey();
       await createApiKey();
-      // router.reload();
+      router.refresh();
     } catch (error) {
       toast({
         title: 'Error creating new API key',
@@ -34,8 +38,72 @@ const ApiKeyOptions: FC<ApiKeyOptionsProps> = ({ apiKeyKey }) => {
     }
   }
 
+  const revokeCurrentApiKey = async () => {
+    setIsRevoking(true)
+    try {
+      await revokeApiKey()
+      router.refresh();
+    } catch (error) {
+      toast({
+        title: 'Error revoking your API key',
+        message: 'Please try again later.',
+        type: 'error',
+      })
+    } finally {
+      setIsRevoking(false)
+    }
+  }
+
   return (
-    <div>Hello</div>
+    <DropdownMenu>
+      <DropdownMenuTrigger disabled={isCreatingNew || isRevoking} asChild>
+        <Button variant='ghost' className='flex gap-2 items-center'>
+          <p>
+            {
+              isCreatingNew
+                ? 'Creating new key'
+                : isRevoking
+                  ? 'Revoking key'
+                  : 'Options'
+            }
+          </p>
+
+          {
+            isCreatingNew || isRevoking ? (
+              <Loader2 className='animate-spin h-4 w-4' />
+            ) : null
+          }
+        </Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent>
+        <DropdownMenuItem
+          onClick={() => {
+            navigator.clipboard.writeText(apiKeyKey)
+
+            toast({
+              title: 'Copied',
+              message: 'API key copied to clipboard',
+              type: 'success',
+            })
+          }}
+        >
+          Copy
+        </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuItem onClick={createNewApiKey}>
+          Create new key
+        </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuItem onClick={revokeCurrentApiKey}>
+          Revoke key
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
