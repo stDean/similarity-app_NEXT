@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 
 import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
-import { NavBar, Providers } from "@/components";
+import { MobileMenu, NavBar, Providers } from "@/components";
 import { Toaster } from "@/components/ui/Toast";
 
 const inter = Inter({ subsets: ['latin'] })
@@ -22,6 +22,8 @@ export default function RootLayout({
           <NavBar />
 
           <Toaster position="bottom-right" />
+
+          <MobileMenu />
 
           <main>
             {children}
