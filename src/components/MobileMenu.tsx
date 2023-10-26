@@ -71,13 +71,19 @@ const MobileMenu = () => {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={signUserOut} className='gap-1.5'>
-                <User className='mr-2 h-5 w-5' />
-                <span>{isLoading ? 'Signing out' : 'Sign out'}</span>
-                {isLoading ? (
-                  <Loader2 className='animate-spin h-4 w-4' />
-                ) : null}
-              </DropdownMenuItem>
+
+              {
+                session && (
+                  <DropdownMenuItem onClick={signUserOut} className='gap-1.5'>
+                    <User className='mr-2 h-5 w-5' />
+                    <span>{isLoading ? 'Signing out' : 'Sign out'}</span>
+                    {isLoading ? (
+                      <Loader2 className='animate-spin h-4 w-4' />
+                    ) : null}
+                  </DropdownMenuItem>
+                )
+              }
+
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>

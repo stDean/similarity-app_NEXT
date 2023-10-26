@@ -13,6 +13,7 @@ import Icons from "./Icons";
 
 export const ThemeToggle = () => {
 
+  // access to this because of the ThemeProvider context passed to the Root component.
   const { setTheme } = useTheme()
 
   return (
@@ -22,6 +23,7 @@ export const ThemeToggle = () => {
           <Icons.Sun className='rotate-0 scale-100 transition-all hover:text-slate-900 dark:-rotate-90 dark:scale-0 dark:text-slate-400 dark:hover:text-slate-100' />
 
           <Icons.Moon className='absolute rotate-90 scale-0 transition-all hover:text-slate-900 dark:rotate-0 dark:scale-100 dark:text-slate-400 dark:hover:text-slate-100' />
+          
           <span className='sr-only'>Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>

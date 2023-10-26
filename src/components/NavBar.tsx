@@ -7,6 +7,7 @@ import SignOutButton from "@/ui/SignOutButton";
 import { ThemeToggle } from "./ThemeToggle";
 import { authOptions } from "@/lib/auth";
 
+// server side component
 const NavBar = async () => {
 
   const session = await getServerSession(authOptions);
@@ -18,10 +19,12 @@ const NavBar = async () => {
           Text Similarity v1.0
         </Link>
 
+        {/* show the theme toggle in small screens */}
         <div className='md:hidden'>
           <ThemeToggle />
         </div>
 
+        {/* hide this in small screens and be visible from medium break points */}
         <div className='hidden md:flex gap-4'>
           <ThemeToggle />
 
