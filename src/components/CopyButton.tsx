@@ -1,8 +1,7 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { Copy } from "lucide-react";
-import { ButtonHTMLAttributes, FC } from 'react'
+import { ButtonHTMLAttributes, FC } from 'react';
 import { Button } from "./ui/Button";
 import { toast } from "./ui/Toast";
 
@@ -29,7 +28,8 @@ const CopyButton: FC<CopyButtonProps> = ({
         })
       }}
       variant='ghost'
-      className={cn('', className)}>
+      className={className}
+    >
       <Copy className='h-5 w-5' />
     </Button>
   )

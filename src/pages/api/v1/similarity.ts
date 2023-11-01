@@ -6,6 +6,7 @@ import { db } from "@/lib/db";
 import { openai } from "@/lib/openai";
 import { cosineSimilarity } from "@/helpers/cosine-sim";
 
+// checking what user sends in the request body
 const reqSchema = z.object({
   text1: z.string().max(1000),
   text2: z.string().max(1000),
@@ -34,16 +35,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const start = new Date();
+    console.log("hello");
+
     const embeddings = await Promise.all(
       [text1, text2].map(async text => {
+        console.log("hello2")
         const res = await openai.createEmbedding({
           model: "text-embedding-ada-002",
-          input: text,
+          input: text
         })
 
-        return res.data.data[0].embedding
+        return res.data.data[0].embedding;
       })
     );
+
+    console.log("hello3");
 
     const similarity = cosineSimilarity(embeddings[0], embeddings[1]);
     const duration = new Date().getTime() - start.getTime()
@@ -60,7 +66,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
 
-    return res.status(200).json({ success: true, text1, text2 })
+    return res.status(200).json({ success: true, text1, text2, similarity })
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ error: error.issues })

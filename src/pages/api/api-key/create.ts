@@ -14,8 +14,9 @@ const handler = async (
   res: NextApiResponse<CreateApiData>
 ) => {
   try {
+    // get user from session
     const user = await getServerSession(req, res, authOptions).then(
-      (res) => res?.user
+      (res) => res?.user 
     )
 
     if (!user) {
@@ -25,6 +26,7 @@ const handler = async (
       })
     }
 
+    // check for key in the db
     const existingApiKey = await db.apiKey.findFirst({
       where: { userId: user.id, enabled: true },
     })

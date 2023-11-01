@@ -20,22 +20,30 @@ const Code: FC<CodeProps> = ({
   animationDelay,
   language,
 }) => {
+  // active theme of the app
   const { theme: applicationTheme } = useTheme()
-  const [text, setText] = useState<string>(animated ? '' : code)
   const { nightOwl, nightOwlLight } = themes;
+
+  const [text, setText] = useState<string>(animated ? '' : code)
 
   useEffect(() => {
     if (show && animated) {
       let i = 0;
+
+      // this whole logic should run for 150ms
       setTimeout(() => {
+        // this makes the code have the typing illusion
         const intervalId = setInterval(() => {
           setText(code.slice(0, i))
           i++
+
+          // if you have exceeded the code character stop the interval
           if (i > code.length) {
             clearInterval(intervalId)
           }
         }, 15);
 
+        // clean up function
         return () => clearInterval(intervalId)
       }, animationDelay || 150);
     }
@@ -60,6 +68,7 @@ const Code: FC<CodeProps> = ({
           }}>
           {tokens.map((line, i) => {
             // eslint-disable-next-line no-unused-vars
+            // the line above because we don't use the key props
             const { key, ...rest } = getLineProps({ line, key: i })
             return (
               <div key={`line-${i}`} style={{ position: 'relative' }} {...rest}>

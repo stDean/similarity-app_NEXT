@@ -5,9 +5,11 @@ export async function createApiKey() {
   const data = (await res.json()) as CreateApiData
 
   if (data.error || !data.createdApiKey) {
+    // if zod error
     if (data.error instanceof Array) {
       throw new Error(data.error.join(', '))
     }
+    // else
     throw new Error(data.error ?? 'Something went wrong')
   }
 

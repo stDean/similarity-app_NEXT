@@ -19,7 +19,9 @@ function getGoogleCredentials(): { clientId: string; clientSecret: string } {
 }
 
 export const authOptions: NextAuthOptions = {
+  // adapter to persist the data
   adapter: PrismaAdapter(db),
+  // managing sessions in client
   session: {
     strategy: 'jwt',
   },
@@ -32,7 +34,9 @@ export const authOptions: NextAuthOptions = {
       clientSecret: getGoogleCredentials().clientSecret,
     }),
   ],
+  // actions to perform when an action is performed
   callbacks: {
+    // populate the session if there is a token
     async session({ token, session }) {
       if (token) {
         session.user.id = token.id
@@ -43,7 +47,9 @@ export const authOptions: NextAuthOptions = {
 
       return session
     },
+    // set the pay load of the token to the returned obj
     async jwt({ token, user }) {
+      // check if user is in DB
       const dbUser = await db.user.findFirst({
         where: {
           email: token.email,
@@ -62,6 +68,7 @@ export const authOptions: NextAuthOptions = {
         picture: dbUser.image,
       }
     },
+    // page to redirect to
     redirect() {
       return '/dashboard'
     },

@@ -23,6 +23,7 @@ const ApiDashBoard = async () => {
   const activeApiKey = apiKeys.find(key => key.enabled);
   if (!activeApiKey) return notFound();
 
+  // check how many request you have made with a key returns an array
   const userRequests = await db.apiRequest.findMany({
     where: {
       apiKeyId: {

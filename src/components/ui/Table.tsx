@@ -6,7 +6,8 @@ import { ApiRequest } from "@prisma/client";
 import { useTheme } from "next-themes";
 import { FC } from "react";
 
-// modify the timestamp from the apiRequest
+// get all the keys from the ApiRequest Table(generated type by prisma)
+// modify the timestamp from the apiRequest 
 type ModifiedRequestType<K extends keyof ApiRequest> = Omit<ApiRequest, K> & {
   timestamp: string
 }
@@ -15,6 +16,7 @@ interface TableProps {
   userRequests: ModifiedRequestType<'timestamp'>[]
 }
 
+// column definition
 const columnsDraft: GridColDef[] = [
   {
     field: 'col1',
@@ -32,6 +34,7 @@ const columnsDraft: GridColDef[] = [
   { field: 'col5', headerName: 'Status', width: 150 },
 ];
 
+// map through all columns and render them bold except the first col
 const columns = columnsDraft.map(col => {
   if (col.field === 'col1') {
     return col
